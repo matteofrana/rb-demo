@@ -33,6 +33,16 @@ const Home: React.FC<HomeProps> = ({ page, error }) => {
           <Head>
             <title>{page.meta.title}</title>
             <meta name="description" content={page.meta.description} />
+            {/* <meta property="og:type" content={page.customValues.type} />
+            <meta
+              property="og:site_name"
+              content={page.customValues.siteName}
+            />
+            <meta property="og:title" content={page.customValues.title} />
+            <meta
+              property="og:description"
+              content={page.customValues.description}
+            /> */}
           </Head>
           <PageViewer page={pageOk} />
         </>

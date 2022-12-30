@@ -28,7 +28,7 @@ const config: types.ReactBricksConfig = {
   //responsiveBreakpoints: [{ type: types.DeviceType.Phone, width: 480, label: 'Smartphone'}],
   enableAutoSave: true,
   disableSaveIfInvalidProps: false,
-  enablePreview: true,
+  enablePreview: true
 }
 
 export default config

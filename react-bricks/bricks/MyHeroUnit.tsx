@@ -54,6 +54,9 @@ const MyHeroUnit: types.Brick<HeroUnitProps> = ({ padding }) => {
             types.RichTextFeatures.Code,
             types.RichTextFeatures.Link,
           ]}
+          // renderBold={({ children }) => (
+          //   <b className="text-pink-500">{children}</b>
+          // )}
         />
       </div>
     </div>

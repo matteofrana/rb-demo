@@ -8,6 +8,14 @@ const pageTypes: types.IPageType[] = [
     defaultStatus: types.PageStatus.Published,
     getDefaultContent: () => [],
   },
+  {
+    name: 'product',
+    pluralName: 'products',
+    defaultLocked: false,
+    defaultStatus: types.PageStatus.Published,
+    getDefaultContent: () => [],
+    isEntity: true,
+  },
 ]
 
 export default pageTypes
