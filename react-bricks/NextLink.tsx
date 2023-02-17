@@ -26,6 +26,13 @@ const NextLink: types.RenderLocalLink = ({
       </Link>
     )
   }
+  if (href === '/') {
+    return (
+      <Link href="/" className={anchorClassName}>
+        {children}
+      </Link>
+    )
+  }
   return (
     <Link href="/[slug]" as={href} className={anchorClassName}>
       {children}

@@ -16,14 +16,16 @@ import ErrorNoPage from '../components/errorNoPage'
 
 interface PageProps {
   page: types.Page
+  header: types.Page
   error: string
 }
 
-const Page: React.FC<PageProps> = ({ page, error }) => {
+const Page: React.FC<PageProps> = ({ page, header, error }) => {
   // Clean the received content
   // Removes unknown or not allowed bricks
   const { pageTypes, bricks } = useContext(ReactBricksContext)
   const pageOk = page ? cleanPage(page, pageTypes, bricks) : null
+  const headerOk = header ? cleanPage(header, pageTypes, bricks) : null
 
   return (
     <Layout>
@@ -33,6 +35,7 @@ const Page: React.FC<PageProps> = ({ page, error }) => {
             <title>{page.meta.title}</title>
             <meta name="description" content={page.meta.description} />
           </Head>
+          <PageViewer page={headerOk} />
           <PageViewer page={pageOk} />
         </>
       )}
@@ -47,8 +50,13 @@ export const getStaticProps: GetStaticProps = async (context) => {
   }
   const { slug } = context.params
   try {
-    const page = await fetchPage(slug.toString(), config.apiKey, context.locale)
-    return { props: { page } }
+    const page = await fetchPage(
+      slug ? slug.toString() : 'home',
+      config.apiKey,
+      context.locale
+    )
+    const header = await fetchPage('header', config.apiKey, context.locale)
+    return { props: { page, header } }
   } catch {
     return { props: { error: 'NOPAGE' } }
   }
@@ -68,7 +76,9 @@ export const getStaticPaths: GetStaticPaths = async (context) => {
           (translation) => context.locales.indexOf(translation.language) > -1
         )
         .map((translation) => ({
-          params: { slug: translation.slug },
+          params: {
+            slug: translation.slug === 'home' ? [] : [translation.slug],
+          },
           locale: translation.language,
         }))
     )
