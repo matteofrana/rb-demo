@@ -1,6 +1,7 @@
 import classNames from 'classnames'
-import React, { useRef, useState } from 'react'
-import { Text, Repeater, types, Link } from 'react-bricks/frontend'
+import React, { useRef, useState, useEffect } from 'react'
+import { useRouter } from 'next/router'
+import { Text, Repeater, Link, types } from 'react-bricks/frontend'
 import useOnClickOutside from './useClickOutside'
 
 interface HeaderMenuItemProps {
@@ -14,19 +15,24 @@ const HeaderMenuItem: types.Brick<HeaderMenuItemProps> = ({
   submenuItems,
   isActive,
 }) => {
+  const router = useRouter()
+
   const [open, setOpen] = useState(false)
   const ref = useRef<HTMLDivElement>(null)
 
   useOnClickOutside(ref, () => setOpen(false))
 
+  useEffect(() => {
+    router.events.on('routeChangeComplete', () => setOpen(false))
+    return router.events.off('routeChangeComplete', () => setOpen(false))
+  }, [])
+
   if (!submenuItems || !submenuItems.length) {
     return (
       <Link
         href={linkPath}
-        className={classNames(
-          'inline-flex justify-center items-center text-sm font-bold py-1.5 px-2 rounded-[5px] transition-colors ease-out text-gray-600 dark:text-white hover:bg-sky-500/20 hover:text-sky-600',
-          { 'text-sky-600 bg-sky-500/10': isActive }
-        )}
+        className="inline-flex justify-center items-center text-sm font-bold py-1.5 px-2 rounded-[5px] transition-colors ease-out text-gray-600 dark:text-white hover:bg-sky-500/20 hover:text-sky-600"
+        activeClassName="inline-flex justify-center items-center text-sm font-bold py-1.5 px-2 rounded-[5px] transition-colors ease-out text-sky-600 dark:text-white hover:bg-sky-500/20 hover:text-sky-600 bg-sky-500/10"
       >
         <Text
           propName="linkText"
